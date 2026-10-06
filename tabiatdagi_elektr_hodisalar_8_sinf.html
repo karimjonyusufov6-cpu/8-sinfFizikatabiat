@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>8-sinf Fizika — Tabiatdagi elektr hodisalari</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#eef4ff;color:#17233c;line-height:1.55}
+header{background:linear-gradient(135deg,#142b63,#1976d2);color:white;padding:30px 20px;text-align:center}
+header h1{margin:0 0 8px;font-size:clamp(28px,5vw,48px)} header p{margin:4px}
+nav{position:sticky;top:0;z-index:5;background:#fff;padding:10px;display:flex;gap:8px;overflow:auto;box-shadow:0 2px 10px #0002}
+nav a{white-space:nowrap;text-decoration:none;background:#e8f0ff;color:#174ea6;padding:8px 12px;border-radius:20px;font-weight:bold}
+main{max-width:1200px;margin:auto;padding:20px}.card{background:#fff;border-radius:18px;padding:22px;margin:18px 0;box-shadow:0 5px 20px #183b6b18}
+h2{color:#1455a0}h3{color:#0b6b75}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.note{background:#eef8ff;border-left:5px solid #1976d2;padding:12px;border-radius:8px}.warn{background:#fff4e5;border-left:5px solid #ff9800;padding:12px;border-radius:8px}
+button{border:0;border-radius:10px;padding:10px 15px;background:#1769aa;color:#fff;cursor:pointer;margin:4px;font-weight:bold}button:hover{filter:brightness(1.08)}
+button.secondary{background:#607d8b}.output{margin-top:10px;padding:12px;border-radius:10px;background:#f2f6fa;min-height:35px}
+.sim{background:#0b1833;color:#fff;border-radius:15px;padding:18px;overflow:hidden}
+canvas{display:block;width:100%;height:280px;background:linear-gradient(#19345d,#7aa8d8 62%,#487b45 62%);border-radius:12px}
+label{display:block;margin:8px 0;font-weight:bold}input[type=range]{width:100%}
+.pill{display:inline-block;background:#dff6ff;padding:5px 9px;border-radius:15px;margin:3px}
+table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccd6e4;padding:9px;text-align:left}th{background:#e8f0ff}
+.quiz label{font-weight:normal;background:#f7f9fc;padding:8px;border-radius:8px}.score{font-size:22px;font-weight:bold;color:#1455a0}
+footer{text-align:center;padding:30px;color:#546}
+.hide{display:none}.ok{color:#087443;font-weight:bold}.bad{color:#b42318;font-weight:bold}
+</style>
+</head>
+<body>
+<header>
+<h1>⚡ Tabiatdagi elektr hodisalari</h1>
+<p>8-sinf Fizika • Interaktiv elektron dars</p>
+<p>Animatsiya • Simulyatsiya • Virtual tajriba • Test • Mustahkamlash</p>
+</header>
+<nav>
+<a href="#intro">Kirish</a><a href="#lightning">1. Chaqmoq</a><a href="#bio">2. Biologik elektr</a><a href="#static">3. Statik elektr</a><a href="#earth">Yer magnit maydoni</a><a href="#tasks">Topshiriqlar</a><a href="#test">Test</a><a href="#final">Xulosa</a>
+</nav>
+
+<main>
+<section id="intro" class="card">
+<h2>🎯 Dars maqsadi</h2>
+<div class="grid">
+<div><h3>Bilim</h3><p>O‘quvchi tabiatdagi elektr hodisalarini, chaqmoq, biologik elektr, statik elektr va Yer magnit maydonini tushuntira oladi.</p></div>
+<div><h3>Ko‘nikma</h3><p>Interaktiv modellar orqali zaryad, elektr maydoni va magnit maydoni bilan bog‘liq jarayonlarni kuzatadi.</p></div>
+<div><h3>Kompetensiya</h3><p>Fizik hodisalarni kundalik hayot bilan bog‘laydi, xavfsizlik qoidalariga amal qiladi.</p></div>
+</div>
+<div class="note"><b>Qiziqarli savol:</b> Nega chaqmoqni avval ko‘ramiz, momaqaldiroqni esa keyin eshitamiz?</div>
+</section>
+
+<section id="lightning" class="card">
+<h2>⚡ 1. Chaqmoq va momaqaldiroq</h2>
+<h3>Qisqa nazariya</h3>
+<p><b>Chaqmoq</b> — bulutlar orasida yoki bulut bilan Yer orasida yuz beradigan kuchli elektr razryadi. Bulut ichidagi muz kristallari, suv tomchilari va havo oqimlarining harakati natijasida zaryadlar ajraladi. Ko‘pincha bulutning yuqori qismi nisbatan musbat, pastki qismi esa manfiy zaryadlanadi.</p>
+<p>Bulutning manfiy qismi Yer yuzasidagi zaryadlarning qayta taqsimlanishiga sabab bo‘ladi. Elektr maydoni yetarlicha kuchayganda havoning izolyatorlik xususiyati buzilib, kuchli razryad — chaqmoq paydo bo‘ladi.</p>
+<p><b>Momaqaldiroq</b> — chaqmoq kanali atrofidagi havoning juda tez qizib-kengayishi natijasida hosil bo‘ladigan tovush hodisasidir.</p>
+<p>Yorug‘lik havoda tovushdan juda tez tarqaladi. Shuning uchun chaqmoqni deyarli darhol ko‘ramiz, momaqaldiroqni esa biroz kechroq eshitamiz.</p>
+
+<div class="sim">
+<h3>🌩️ Interaktiv chaqmoq simulyatsiyasi</h3>
+<canvas id="storm"></canvas>
+<button onclick="stormStep(1)">1. Zaryadlarni ajratish</button>
+<button onclick="stormStep(2)">2. Elektr maydonini kuchaytirish</button>
+<button onclick="stormStep(3)">3. Chaqmoqni hosil qilish</button>
+<button class="secondary" onclick="stormStep(0)">🔄 Qayta boshlash</button>
+<div id="stormText" class="output">Boshlash uchun tugmalardan foydalaning.</div>
+</div>
+
+<h3>🧪 Virtual tajriba: chaqmoqni ko‘rish va eshitish</h3>
+<p>Quyidagi tugma yorug‘lik va tovushning kelish vaqti farqini model qiladi.</p>
+<button onclick="lightningSound()">Chaqmoqni kuzatish</button>
+<div id="soundOut" class="output"></div>
+
+<div class="warn"><b>⚠️ Xavfsizlik:</b> Momaqaldiroq paytida ochiq maydon, baland yakka daraxt, metall konstruksiya va suv havzalaridan uzoqlashing. Bino ichida qolish va elektr jihozlaridan ehtiyot bo‘lish xavfsizroq.</div>
+</section>
+
+<section id="bio" class="card">
+<h2>🐟 2. Tirik tabiatdagi biologik elektr</h2>
+<p>Tirik organizmlarda hujayra membranalari bo‘ylab ionlarning taqsimlanishi elektr potensiallari hosil bo‘lishiga olib keladi. Nerv hujayralari elektr impulslarini uzatadi, mushaklar esa elektr boshqaruv signallariga javob beradi. Yurak faoliyati ham elektr jarayonlari bilan chambarchas bog‘liq.</p>
+<p><b>Elektr organlari</b> ayrim hayvonlarda maxsus hujayralardan tashkil topgan bo‘lib, ular elektr razryadi hosil qilishi mumkin. Masalan, elektr ilonbaliq, elektr skat va ayrim elektr laqqa baliqlari.</p>
+
+<div class="sim">
+<h3>🐍 Elektr ilonbaliq modeli</h3>
+<canvas id="eel"></canvas>
+<button onclick="eelAction('organs')">Elektr organlarini ko‘rsatish</button>
+<button onclick="eelAction('shock')">⚡ Razryad hosil qilish</button>
+<button onclick="eelAction('field')">Suvdagi elektr maydoni</button>
+<div id="eelText" class="output">Tugmalardan birini tanlang.</div>
+</div>
+<div class="note"><b>Hayotiy aloqa:</b> Nerv impulslari va hayvonlarning elektr organlari bir xil ma’nodagi “katta tok” emas. Biologik elektr hujayra va to‘qimalardagi ionlar harakati bilan bog‘liq.</div>
+</section>
+
+<section id="static" class="card">
+<h2>🎈 3. Statik elektr</h2>
+<p><b>Statik elektr</b> — jismlarda elektr zaryadlarining muvozanat holatida to‘planishi bilan bog‘liq hodisalar majmuasi. Ishqalanishda elektronlarning bir jismdan boshqasiga o‘tishi mumkin.</p>
+<p>Masalan, sharni sochga ishqalaganda shar zaryadlanadi va yengil qog‘oz bo‘laklarini tortishi mumkin. Kiyimlarning yopishishi ham statik elektrga misoldir.</p>
+
+<div class="sim">
+<h3>🎈 Statik elektr simulyatsiyasi</h3>
+<canvas id="staticCanvas"></canvas>
+<label>Ishqalanish soni: <span id="rubVal">5</span></label>
+<input id="rub" type="range" min="0" max="20" value="5" oninput="staticSim()">
+<button onclick="staticSim()">Natijani ko‘rsatish</button>
+<div id="staticText" class="output"></div>
+</div>
+</section>
+
+<section id="earth" class="card">
+<h2>🌍 Yerning magnit maydoni va qutb yog‘dusi</h2>
+<p>Yer atrofida magnit maydon mavjud. Kompas strelkasi Yerning magnit maydoni ta’sirida ma’lum yo‘nalishga keladi. Magnit maydon Yer atrofidagi fazoda maydon chiziqlari bilan tasvirlanishi mumkin.</p>
+<p>Ayrim hayvonlar, jumladan ko‘chib yuruvchi qushlar, Yer magnit maydonidan yo‘nalishni aniqlashda foydalanishi mumkin.</p>
+
+<div class="sim">
+<h3>🧭 Kompas simulyatsiyasi</h3>
+<canvas id="compass"></canvas>
+<label>Joylashuv: <span id="posVal">50</span>%</label>
+<input id="pos" type="range" min="0" max="100" value="50" oninput="compassSim()">
+<div id="compassText" class="output"></div>
+</div>
+
+<h3>🌌 Qutb yog‘dusi (Aurora)</h3>
+<p>Quyoshdan keladigan zaryadlangan zarrachalar Yer magnit maydoni bilan o‘zaro ta’sirlashadi. Ularning bir qismi qutb hududlariga yo‘nalib, yuqori atmosferadagi zarrachalar bilan to‘qnashadi. Natijada qutb yog‘dusi — aurora yuzaga kelishi mumkin.</p>
+<div class="sim">
+<canvas id="aurora"></canvas>
+<button onclick="auroraStart()">▶ Aurora animatsiyasi</button>
+<button class="secondary" onclick="auroraStop()">⏹ To‘xtatish</button>
+</div>
+</section>
+
+<section id="tasks" class="card">
+<h2>🧩 Interaktiv topshiriqlar</h2>
+
+<h3>To‘g‘ri / Noto‘g‘ri</h3>
+<div id="tf">
+<p>1. Chaqmoq elektr razryadidir. <button onclick="tf(this,true)">To‘g‘ri</button><button onclick="tf(this,false)">Noto‘g‘ri</button></p>
+<p>2. Momaqaldiroq yorug‘lik hodisasidir. <button onclick="tf(this,false)">To‘g‘ri</button><button onclick="tf(this,true)">Noto‘g‘ri</button></p>
+<p>3. Ishqalanish natijasida jismlar zaryadlanishi mumkin. <button onclick="tf(this,true)">To‘g‘ri</button><button onclick="tf(this,false)">Noto‘g‘ri</button></p>
+</div>
+
+<h3>Bo‘sh joyni to‘ldiring</h3>
+<ol>
+<li>Chaqmoq — kuchli elektr <input id="fill1">.</li>
+<li>Yer atrofida <input id="fill2"> maydon mavjud.</li>
+<li>Kompasning strelkasi <input id="fill3"> maydoni ta’sirida yo‘naladi.</li>
+</ol>
+<button onclick="checkFill()">Tekshirish</button><div id="fillOut" class="output"></div>
+
+<h3>Vaziyatli savollar</h3>
+<div class="note"><b>1-vaziyat:</b> Momaqaldiroq boshlandi. Ochiq maydonda turibsiz. Nima qilasiz?</div>
+<p>Javob: ochiq joydan xavfsiz bino yoki avtomobilga kirish, baland yakka daraxt va suvdan uzoqlashish.</p>
+<div class="note"><b>2-vaziyat:</b> Sharni sochga ishqalaganda u qog‘ozni tortdi. Nima sabab?</div>
+<p>Javob: ishqalanish natijasida elektr zaryadlanish va elektrostatik ta’sir yuz berdi.</p>
+<div class="note"><b>3-vaziyat:</b> Kompasni magnit maydonga olib kirsangiz nima kuzatiladi?</div>
+<p>Javob: kompas strelkasi maydon yo‘nalishiga mos ravishda buriladi.</p>
+
+<h3>🔗 Moslashtirish</h3>
+<table><tr><th>Hodisa</th><th>Mos tushuncha</th></tr>
+<tr><td>1. Chaqmoq</td><td>A. Elektr razryadi</td></tr>
+<tr><td>2. Momaqaldiroq</td><td>B. Tovush hodisasi</td></tr>
+<tr><td>3. Aurora</td><td>C. Atmosferadagi zarrachalar bilan o‘zaro ta’sir</td></tr></table>
+</section>
+
+<section id="test" class="card quiz">
+<h2>📝 10 ta test</h2>
+<form id="quizForm">
+<div class="q"><b>1. Chaqmoq nima?</b><label><input type="radio" name="q1" value="a"> A) Elektr razryadi</label><label><input type="radio" name="q1" value="b"> B) Oddiy shamol</label><label><input type="radio" name="q1" value="c"> C) Suv bug‘i</label><label><input type="radio" name="q1" value="d"> D) Magnit</label></div>
+<div class="q"><b>2. Momaqaldiroqning asosiy sababi nima?</b><label><input type="radio" name="q2" value="a"> A) Havoning chaqmoq kanali atrofida tez qizib-kengayishi</label><label><input type="radio" name="q2" value="b"> B) Yer aylanishi</label><label><input type="radio" name="q2" value="c"> C) Quyosh chiqishi</label><label><input type="radio" name="q2" value="d"> D) Shamolning yo‘nalishi</label></div>
+<div class="q"><b>3. Nega chaqmoq avval ko‘rinadi?</b><label><input type="radio" name="q3" value="a"> A) Yorug‘lik tovushdan tez tarqaladi</label><label><input type="radio" name="q3" value="b"> B) Tovush yorug‘likdan tez</label><label><input type="radio" name="q3" value="c"> C) Chunki chaqmoq jim</label><label><input type="radio" name="q3" value="d"> D) Havo tovushni yutadi</label></div>
+<div class="q"><b>4. Statik elektr nima bilan bog‘liq?</b><label><input type="radio" name="q4" value="a"> A) Zaryadlarning to‘planishi</label><label><input type="radio" name="q4" value="b"> B) Faqat magnitlar</label><label><input type="radio" name="q4" value="c"> C) Faqat issiqlik</label><label><input type="radio" name="q4" value="d"> D) Faqat tovush</label></div>
+<div class="q"><b>5. Ishqalanishda asosan qaysi zarracha ko‘chishi mumkin?</b><label><input type="radio" name="q5" value="a"> A) Elektron</label><label><input type="radio" name="q5" value="b"> B) Protonning yadrosi</label><label><input type="radio" name="q5" value="c"> C) Neytron</label><label><input type="radio" name="q5" value="d"> D) Atom yadrosi</label></div>
+<div class="q"><b>6. Elektr ilonbaliq nimaga ega?</b><label><input type="radio" name="q6" value="a"> A) Elektr organlariga</label><label><input type="radio" name="q6" value="b"> B) Oddiy batareyaga</label><label><input type="radio" name="q6" value="c"> C) Kompasga</label><label><input type="radio" name="q6" value="d"> D) Generatorga</label></div>
+<div class="q"><b>7. Kompas nimaga yo‘naladi?</b><label><input type="radio" name="q7" value="a"> A) Yer magnit maydoniga</label><label><input type="radio" name="q7" value="b"> B) Faqat Quyoshga</label><label><input type="radio" name="q7" value="c"> C) Ovozga</label><label><input type="radio" name="q7" value="d"> D) Yomg‘irga</label></div>
+<div class="q"><b>8. Aurora qayerda ko‘proq kuzatiladi?</b><label><input type="radio" name="q8" value="a"> A) Qutb hududlarida</label><label><input type="radio" name="q8" value="b"> B) Faqat ekvatorda</label><label><input type="radio" name="q8" value="c"> C) Okean tubida</label><label><input type="radio" name="q8" value="d"> D) Faqat cho‘lda</label></div>
+<div class="q"><b>9. Biologik elektr nimaga bog‘liq?</b><label><input type="radio" name="q9" value="a"> A) Ionlar va hujayralardagi elektr potensiallariga</label><label><input type="radio" name="q9" value="b"> B) Faqat shamolga</label><label><input type="radio" name="q9" value="c"> C) Faqat yorug‘likka</label><label><input type="radio" name="q9" value="d"> D) Faqat bosimga</label></div>
+<div class="q"><b>10. Momaqaldiroq vaqtida eng to‘g‘ri harakat qaysi?</b><label><input type="radio" name="q10" value="a"> A) Xavfsiz bino ichiga kirish</label><label><input type="radio" name="q10" value="b"> B) Yakka daraxt ostiga turish</label><label><input type="radio" name="q10" value="c"> C) Suvga kirish</label><label><input type="radio" name="q10" value="d"> D) Ochiq maydonda qolish</label></div>
+<button type="button" onclick="grade()">Testni tekshirish</button>
+</form><div id="score" class="score"></div>
+</section>
+
+<section id="final" class="card">
+<h2>🎓 Bugun nimani o‘rgandik?</h2>
+<ul>
+<li>Chaqmoq — kuchli elektr razryadi, momaqaldiroq esa u bilan bog‘liq tovush hodisasi.</li>
+<li>Tirik organizmlarda ionlar harakati biologik elektr hodisalarini yuzaga keltiradi.</li>
+<li>Ayrim hayvonlarda elektr organlari mavjud.</li>
+<li>Ishqalanish jismlarni statik zaryadlashi mumkin.</li>
+<li>Yerning magnit maydoni kompas va ayrim hayvonlarning orientatsiyasida muhim.</li>
+</ul>
+<h3>⭐ 5 ta eng muhim tushuncha</h3>
+<p><span class="pill">Elektr zaryadi</span><span class="pill">Elektr maydoni</span><span class="pill">Elektr razryadi</span><span class="pill">Biologik elektr</span><span class="pill">Yer magnit maydoni</span></p>
+<h3>🪞 Men nimalarni bilaman?</h3>
+<label>☐ Chaqmoq va momaqaldiroqni tushuntira olaman.</label>
+<label>☐ Statik elektrga misollar keltira olaman.</label>
+<label>☐ Elektr organlariga ega hayvonlarni bilaman.</label>
+<label>☐ Kompasning ishlashini tushuntira olaman.</label>
+<label>☐ Chaqmoq paytidagi xavfsizlik qoidalarini bilaman.</label>
+<h3>🏠 Uyga vazifa</h3>
+<p>1) Tabiatdagi elektr hodisalaridan 5 ta misol toping. 2) Chaqmoq vaqtida xavfsizlik qoidalari bo‘yicha kichik plakat tayyorlang. 3) “Elektr hodisalari tabiat va hayotda” mavzusida 8–10 gap yozing.</p>
+</section>
+</main>
+<footer>8-sinf Fizika • “Tabiatdagi elektr hodisalari” • Interaktiv HTML5 dars materiali</footer>
+
+<script>
+const storm=document.getElementById('storm'),sc=storm.getContext('2d');let s=0;
+function drawStorm(){sc.clearRect(0,0,storm.width,storm.height);let w=storm.width=storm.clientWidth*2,h=storm.height=560;sc.scale(1,1);
+sc.fillStyle='#223b65';sc.fillRect(0,0,w,h*.62);sc.fillStyle='#4f8c52';sc.fillRect(0,h*.62,w,h*.38);
+sc.fillStyle='#ddd';for(let i=0;i<8;i++){sc.beginPath();sc.arc(w*.2+i*w*.08,h*.23,55,0,7);sc.fill()}
+sc.font='bold 26px Arial';sc.fillStyle='#222';sc.fillText('−  −  −  −  −',w*.28,h*.35);sc.fillText('+  +  +  +  +',w*.28,h*.78);
+if(s>=2){sc.strokeStyle='#fff';sc.lineWidth=4;for(let x=.32;x<.75;x+=.12){sc.beginPath();sc.moveTo(w*x,h*.36);sc.lineTo(w*x+.02*w,h*.62);sc.stroke()}}
+if(s>=3){sc.strokeStyle='#ffff55';sc.lineWidth=7;sc.beginPath();sc.moveTo(w*.52,h*.35);sc.lineTo(w*.48,h*.45);sc.lineTo(w*.55,h*.55);sc.lineTo(w*.51,h*.64);sc.stroke();}}
+function stormStep(n){s=n;drawStorm();document.getElementById('stormText').innerHTML=n==0?'Boshlang‘ich holat.':n==1?'Zaryadlar ajralmoqda: bulutning turli qismlarida turli ishorali zaryadlar to‘planadi.':n==2?'Elektr maydoni kuchaymoqda. Havo ionlanishi va razryadga sharoit yuzaga kelmoqda.':'⚡ Chaqmoq razryadi hosil bo‘ldi! Yorug‘lik tovushdan tez tarqaladi.'} drawStorm();
+function lightningSound(){let out=document.getElementById('soundOut');out.textContent='⚡ Chaqmoq: 0 s — ko‘rildi. 🔊 Momaqaldiroq: taxminan masofaga bog‘liq holda keyinroq eshitiladi. Masalan, 1 km masofada ≈ 3 s.'}
+const eel=document.getElementById('eel'),ec=eel.getContext('2d');
+function eelAction(a){let w=eel.width=eel.clientWidth*2,h=560;ec.clearRect(0,0,w,h);ec.fillStyle='#17658a';ec.fillRect(0,0,w,h);ec.fillStyle='#d7a75c';ec.beginPath();ec.ellipse(w*.5,h*.55,w*.34,h*.12,0,0,7);ec.fill();if(a==='organs'){ec.fillStyle='#ffcc00';for(let i=0;i<9;i++)ec.fillRect(w*.34+i*w*.035,h*.47,20,70);document.getElementById('eelText').textContent='Sariq rangda elektr organlari modeli ko‘rsatildi.'}if(a==='shock'){ec.strokeStyle='#fff36b';ec.lineWidth=5;for(let i=0;i<8;i++){ec.beginPath();ec.moveTo(w*.5,h*.45);ec.lineTo(w*(.2+i*.08),h*(.2+i%2*.6));ec.stroke()}document.getElementById('eelText').textContent='Elektr organlari hosil qilgan razryad suv muhitida elektr maydonini yuzaga keltiradi.'}if(a==='field'){for(let r=40;r<300;r+=40){ec.strokeStyle='rgba(255,255,255,.5)';ec.beginPath();ec.arc(w*.5,h*.55,r,0,7);ec.stroke()}document.getElementById('eelText').textContent='Elektr maydoni suv muhitida tarqaladi; hayvonlar elektr signallaridan himoya yoki sezish jarayonlarida foydalanishi mumkin.'}}
+function staticSim(){let v=+document.getElementById('rub').value;document.getElementById('rubVal').textContent=v;let c=document.getElementById('staticCanvas'),x=c.getContext('2d'),w=c.width=c.clientWidth*2,h=560;x.clearRect(0,0,w,h);x.fillStyle='#dbe7f3';x.fillRect(0,0,w,h);x.fillStyle='#e33';x.beginPath();x.arc(w*.45,h*.45,70,0,7);x.fill();x.fillStyle='#7b4b25';x.fillRect(w*.2,h*.25,80,230);x.font='28px Arial';x.fillStyle='#111';x.fillText('−'.repeat(Math.min(18,v)),w*.39,h*.46);x.fillText('qog‘oz',w*.68,h*.45);for(let i=0;i<v;i++){x.beginPath();x.arc(w*(.72+Math.random()*.12),h*(.3+Math.random()*.4),5,0,7);x.fill()}document.getElementById('staticText').textContent=v===0?'Ishqalanish yo‘q: sezilarli zaryadlanish modeli kuzatilmaydi.':'Ishqalanish ortgani sari modeldagi elektron almashinuvi va qog‘oz bo‘laklariga tortilish kuchayadi.'}staticSim();
+const comp=document.getElementById('compass'),cc=comp.getContext('2d');
+function compassSim(){let p=+document.getElementById('pos').value,w=comp.width=comp.clientWidth*2,h=560;cc.clearRect(0,0,w,h);cc.fillStyle='#77a6d0';cc.fillRect(0,0,w,h);cc.strokeStyle='#174ea6';cc.lineWidth=5;for(let y=80;y<h;y+=90){cc.beginPath();cc.arc(w*.5,y,Math.min(w*.4,220),Math.PI,2*Math.PI);cc.stroke()}cc.fillStyle='#5b9148';cc.beginPath();cc.arc(w*.5,h*.85,w*.18,Math.PI,2*Math.PI);cc.fill();let ang=(p-50)*.007;cc.save();cc.translate(w*.5,h*.55);cc.rotate(ang);cc.strokeStyle='#222';cc.lineWidth=12;cc.beginPath();cc.moveTo(-100,0);cc.lineTo(100,0);cc.stroke();cc.restore();document.getElementById('posVal').textContent=p;document.getElementById('compassText').textContent='Kompas strelkasi Yerning magnit maydoni yo‘nalishiga moslashadi. Modelda joylashuv o‘zgarganda strelkaning burilishi ko‘rsatiladi.'}compassSim();
+let ar=null;function auroraStart(){let c=document.getElementById('aurora'),x=c.getContext('2d'),w=c.width=c.clientWidth*2,h=560,t=0;clearInterval(ar);ar=setInterval(()=>{x.fillStyle='#07152d';x.fillRect(0,0,w,h);for(let i=0;i<9;i++){x.strokeStyle='hsla('+(100+i*18)+',90%,70%,.6)';x.lineWidth=12;x.beginPath();x.moveTo(i*w/9,0);for(let y=0;y<h*.8;y+=20)x.lineTo(i*w/9+Math.sin(y/55+t+i)*35,y);x.stroke()}x.fillStyle='#777';x.beginPath();x.arc(w*.5,h*1.05,w*.27,Math.PI,2*Math.PI);x.fill();t+=.08},40)}function auroraStop(){clearInterval(ar)}
+function tf(btn,correct){btn.parentElement.style.background=correct?'#dff6e8':'#ffe2e2';btn.parentElement.insertAdjacentHTML('beforeend',correct?'<span class="ok"> ✓ To‘g‘ri</span>':'<span class="bad"> ✗ Noto‘g‘ri</span>')}
+function checkFill(){let a=document.getElementById('fill1').value.toLowerCase(),b=document.getElementById('fill2').value.toLowerCase(),c=document.getElementById('fill3').value.toLowerCase();let ok=/(razryad|разряд)/.test(a)&&/magnit/.test(b)&&/magnit/.test(c);document.getElementById('fillOut').textContent=ok?'Ajoyib! Javoblaringiz to‘g‘ri.':'To‘liq to‘g‘ri javoblar: razryadi; magnit; magnit.'}
+function grade(){let key=['a','a','a','a','a','a','a','a','a','a'],n=0;for(let i=1;i<=10;i++){let e=document.querySelector('input[name=q'+i+']:checked');if(e&&e.value===key[i-1])n++}document.getElementById('score').textContent='Natija: '+n+'/10 — '+(n>=9?'A’lo!':n>=7?'Yaxshi!':n>=5?'Qoniqarli.':'Mavzuni qayta takrorlang.')}
+</script>
+</body>
+</html>
